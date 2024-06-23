@@ -64,7 +64,7 @@ RUN \
     && install ${name} /usr/local/bin \
     && rm -fr ${name}*
 
-WORKDIR /work
+WORKDIR /app
 
 COPY root /root
 RUN  cd /root && for rc in inputrc bashrc; do cat $rc >> $HOME/.$rc; done

@@ -23,7 +23,7 @@ docker pull tecolicom/texlive-pandoc-ja:latest
 ## Usage / 使い方
 
 ```bash
-$ docker run --rm -it -v $PWD:/workdir tecolicom/texlive-pandoc-ja:latest \
+$ docker run --rm -it -v $PWD:/app tecolicom/texlive-pandoc-ja:latest \
     sh -c 'latexmk -C main.tex && latexmk main.tex && latexmk -c main.tex'
 ```
 
