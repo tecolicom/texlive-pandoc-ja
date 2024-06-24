@@ -20,6 +20,7 @@ ENV PATH="/usr/local/bin/texlive:$PATH"
 #
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
+    git \
     make \
     curl \
     unzip \
@@ -61,7 +62,7 @@ RUN \
     && echo Download ${url} \
     && curl -sLO "${url:?NO URL}" \
     && [ -s $file ] && unzip $file \
-    && install ${name} /usr/local/bin \
+    && [ -s $name ] && install $name /usr/local/bin \
     && rm -fr ${name}*
 
 WORKDIR /app
