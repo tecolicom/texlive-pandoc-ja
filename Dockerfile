@@ -38,6 +38,7 @@ RUN apt-get update -y \
 RUN pip3 install --break-system-packages \
     japanize-matplotlib \
     plotly \
+    pandocfilters \
     kaleido
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
