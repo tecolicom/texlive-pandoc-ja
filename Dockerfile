@@ -48,6 +48,22 @@ RUN apt-get update -y \
  && apt-get -y clean \
  && rm -rf /var/lib/apt/lists/*
 
+
+#
+# translation tools
+#
+RUN apt-get update -y \
+ && apt-get install -y --no-install-recommends \
+    gcc \
+    cpanminus \
+ && apt-get -y clean \
+ && rm -rf /var/lib/apt/lists/*
+RUN cpanm --notest --quiet  \
+    App::Greple::xlate \
+    && rm -fr ~/.cpanm
+RUN pip3 install --break-system-packages \
+    deepl
+
 #
 # pandoc-plot
 #
