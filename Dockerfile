@@ -1,5 +1,5 @@
 FROM "paperist/texlive-ja:latest" AS texlive
-FROM "ubuntu:latest" AS builder
+FROM "pandoc/core:latest-ubuntu"
 ENV HOME=/root
 
 ENV LANG=ja_JP.UTF-8
@@ -10,6 +10,10 @@ RUN apt-get update && \
     && echo "ja_JP.UTF-8 UTF-8" >> /etc/locale.gen \
     && locale-gen \
     && :
+
+COPY --from=texlive /usr/local/texlive /usr/local/texlive
+COPY --from=texlive /usr/local/bin     /usr/local/bin
+ENV PATH="/usr/local/bin/texlive:$PATH"
 
 #
 # basic package
@@ -35,8 +39,7 @@ RUN pip3 install --break-system-packages \
     japanize-matplotlib \
     plotly \
     pandocfilters \
-    kaleido \
-    pantable
+    kaleido
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
     python3-matplotlib \
@@ -44,6 +47,7 @@ RUN apt-get update -y \
     fonts-noto-cjk \
  && apt-get -y clean \
  && rm -rf /var/lib/apt/lists/*
+
 
 #
 # translation tools
@@ -78,34 +82,6 @@ RUN \
     && [ -s $name ] && install $name /usr/local/bin \
     && rm -fr ${name}*
 
-FROM "pandoc/core:latest-ubuntu"
-
-COPY --from=texlive /usr/local /usr/local
-COPY --from=builder /usr/local /usr/local
-COPY --from=builder /usr/lib/python3 /usr/lib/python3
-COPY --from=builder /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu
-ENV PATH="/usr/local/bin/texlive:$PATH"
-
-ENV LANG=ja_JP.UTF-8
-ENV LC_CTYPE=ja_JP.UTF-8
-RUN apt-get update && \
-    apt-get -y upgrade \
-    && apt-get install -y locales \
-    && echo "ja_JP.UTF-8 UTF-8" >> /etc/locale.gen \
-    && locale-gen \
-    && :
-
-#
-# necessary runtime
-#
-RUN apt-get update -y \
- && apt-get install -y --no-install-recommends \
-    git \
-    make \
-    perl \
-    python3 \
- && apt-get -y clean \
- && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 COPY root /root
