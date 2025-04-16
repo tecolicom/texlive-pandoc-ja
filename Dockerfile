@@ -39,7 +39,8 @@ RUN pip3 install --break-system-packages \
     japanize-matplotlib \
     plotly \
     pandocfilters \
-    kaleido
+    kaleido \
+    pantable
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
     python3-matplotlib \
@@ -47,7 +48,6 @@ RUN apt-get update -y \
     fonts-noto-cjk \
  && apt-get -y clean \
  && rm -rf /var/lib/apt/lists/*
-
 
 #
 # translation tools
