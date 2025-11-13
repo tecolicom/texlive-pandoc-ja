@@ -40,7 +40,8 @@ RUN pip3 install --break-system-packages \
     plotly \
     pandocfilters \
     kaleido \
-    pantable
+    pantable \
+    Jinja2
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
     python3-matplotlib \
