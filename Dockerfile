@@ -41,7 +41,7 @@ RUN pip3 install --break-system-packages \
     pandocfilters \
     kaleido \
     pantable \
-    Jinja2
+    pandoc-embedz
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
     python3-matplotlib \
