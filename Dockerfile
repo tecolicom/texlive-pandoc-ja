@@ -5,11 +5,12 @@ FROM haskell:9.6 AS builder
 RUN apt-get update && apt-get install -y --no-install-recommends \
     zlib1g-dev \
     && apt-get clean
-RUN cabal update && \
-    cabal install pandoc-plot \
+RUN cabal update
+RUN cabal install pandoc-plot \
     --install-method=copy \
     --overwrite-policy=always \
-    --installdir=/usr/local/bin
+    --installdir=/usr/local/bin \
+    --jobs=1
 
 #
 # TexLive stage
