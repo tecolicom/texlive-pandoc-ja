@@ -10,7 +10,8 @@ RUN cabal install pandoc-plot \
     --install-method=copy \
     --overwrite-policy=always \
     --installdir=/usr/local/bin \
-    --jobs=1
+    --jobs=1 \
+    --verbose
 
 #
 # TexLive stage
