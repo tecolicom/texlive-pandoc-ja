@@ -1,4 +1,4 @@
-BUILD = docker build --platform=linux/amd64
+BUILD = docker build
 TARGET = tecolicom/texlive-pandoc-ja:dev
 CACHE = $(if $(NOCACHE),--no-cache)
 WORK = /app

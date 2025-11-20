@@ -1,4 +1,24 @@
+#
+# Builder stage for pandoc-plot
+#
+FROM haskell:9.6 AS builder
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    zlib1g-dev \
+    && apt-get clean
+RUN cabal update && \
+    cabal install pandoc-plot \
+    --install-method=copy \
+    --overwrite-policy=always \
+    --installdir=/usr/local/bin
+
+#
+# TexLive stage
+#
 FROM "paperist/texlive-ja:latest" AS texlive
+
+#
+# Main stage
+#
 FROM "pandoc/core:latest-ubuntu"
 ENV HOME=/root
 
@@ -66,22 +86,9 @@ RUN pip3 install --break-system-packages \
     deepl
 
 #
-# pandoc-plot
+# Copy pandoc-plot from builder stage
 #
-WORKDIR /tmp
-SHELL [ "/bin/bash", "-c" ]
-RUN \
-    site=github.com user=LaurentRDC name=pandoc-plot \
-    repo=https://${site}/${user}/${name} \
-    arch=Linux-x86_64-static \
-    file="${name}-${arch}.zip" \
-    path="$(curl -sw '%header{location}' ${repo}/releases/latest)" \
-    url="${path/tag/download}/${file}" \
-    && echo Download ${url} \
-    && curl -sLO "${url:?NO URL}" \
-    && [ -s $file ] && unzip $file \
-    && [ -s $name ] && install $name /usr/local/bin \
-    && rm -fr ${name}*
+COPY --from=builder /usr/local/bin/pandoc-plot /usr/local/bin/
 
 WORKDIR /app
 
