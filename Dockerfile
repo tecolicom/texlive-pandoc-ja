@@ -55,45 +55,7 @@ RUN apt-get update -y \
  && rm -rf /var/lib/apt/lists/*
 
 #
-# additional package
-#
-RUN pip3 install --break-system-packages \
-    japanize-matplotlib \
-    plotly \
-    pandocfilters \
-    kaleido \
-    pantable \
-    pandoc-embedz
-RUN apt-get update -y \
- && apt-get install -y --no-install-recommends \
-    python3-matplotlib \
-    python3-statsmodels \
-    fonts-noto-cjk \
- && apt-get -y clean \
- && rm -rf /var/lib/apt/lists/*
-
-#
-# translation tools
-#
-RUN apt-get update -y \
- && apt-get install -y --no-install-recommends \
-    gcc \
-    cpanminus \
- && apt-get -y clean \
- && rm -rf /var/lib/apt/lists/*
-RUN cpanm --notest --quiet  \
-    App::Greple::xlate \
-    && rm -fr ~/.cpanm
-RUN pip3 install --break-system-packages \
-    deepl
-
-#
-# Copy pandoc-plot from builder stage
-#
-COPY --from=builder /usr/local/bin/pandoc-plot /usr/local/bin/
-
-#
-# mermaid-cli (mmdc) with puppeteer's bundled Chrome
+# mermaid-cli (mmdc) with chromium
 #
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
@@ -130,6 +92,44 @@ RUN echo "deb [trusted=yes] http://deb.debian.org/debian bookworm main" > /etc/a
 ENV PUPPETEER_SKIP_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 RUN npm install -g @mermaid-js/mermaid-cli
+
+#
+# additional package
+#
+RUN pip3 install --break-system-packages \
+    japanize-matplotlib \
+    plotly \
+    pandocfilters \
+    kaleido \
+    pantable \
+    pandoc-embedz
+RUN apt-get update -y \
+ && apt-get install -y --no-install-recommends \
+    python3-matplotlib \
+    python3-statsmodels \
+    fonts-noto-cjk \
+ && apt-get -y clean \
+ && rm -rf /var/lib/apt/lists/*
+
+#
+# translation tools
+#
+RUN apt-get update -y \
+ && apt-get install -y --no-install-recommends \
+    gcc \
+    cpanminus \
+ && apt-get -y clean \
+ && rm -rf /var/lib/apt/lists/*
+RUN cpanm --notest --quiet  \
+    App::Greple::xlate \
+    && rm -fr ~/.cpanm
+RUN pip3 install --break-system-packages \
+    deepl
+
+#
+# Copy pandoc-plot from builder stage
+#
+COPY --from=builder /usr/local/bin/pandoc-plot /usr/local/bin/
 
 WORKDIR /app
 
