@@ -7,6 +7,10 @@ on:
       - 'docs/**'
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   PACKAGE: tecolicom/texlive-pandoc-ja
   NEW_VERSION: v1.${{ github.run_number }}
