@@ -43,6 +43,8 @@ jobs:
           tags: |
             ${{ env.PACKAGE }}:${{ env.NEW_VERSION }}-${{ matrix.arch }}
             ${{ env.PACKAGE }}:latest-${{ matrix.arch }}
+          cache-from: type=gha,scope=${{ matrix.arch }}
+          cache-to: type=gha,scope=${{ matrix.arch }},mode=max
 
   manifest:
     runs-on: ubuntu-latest
