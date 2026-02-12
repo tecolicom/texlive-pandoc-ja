@@ -103,7 +103,6 @@ RUN pip3 install --break-system-packages \
     kaleido \
     pantable \
     openpyxl \
-    pandoc-embedz \
  && pip3 cache purge
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
@@ -139,6 +138,13 @@ WORKDIR /app
 COPY root /root
 RUN  cd /root && for rc in inputrc bashrc; do cat $rc >> $HOME/.$rc; done
 RUN echo '{"args":["--no-sandbox","--disable-setuid-sandbox"]}' > /root/puppeteer.json
+
+#
+# pandoc-embedz (separate layer for quick updates)
+#
+RUN pip3 install --break-system-packages \
+    pandoc-embedz==0.18.1 \
+ && pip3 cache purge
 
 ENTRYPOINT []
 CMD [ "/bin/bash" ]
