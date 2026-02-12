@@ -1,7 +1,7 @@
 #
 # Builder stage for pandoc-plot
 #
-FROM haskell:9.10 AS builder
+FROM "haskell:9.10" AS builder
 RUN apt-get update && apt-get install -y --no-install-recommends \
     zlib1g-dev \
     && apt-get clean
@@ -103,7 +103,8 @@ RUN pip3 install --break-system-packages \
     kaleido \
     pantable \
     openpyxl \
-    pandoc-embedz
+    pandoc-embedz \
+ && pip3 cache purge
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
     python3-matplotlib \
@@ -125,7 +126,8 @@ RUN cpanm --notest --quiet  \
     App::Greple::xlate \
     && rm -fr ~/.cpanm
 RUN pip3 install --break-system-packages \
-    deepl
+    deepl \
+ && pip3 cache purge
 
 #
 # Copy pandoc-plot from builder stage
