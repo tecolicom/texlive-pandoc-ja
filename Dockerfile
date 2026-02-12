@@ -102,6 +102,7 @@ RUN pip3 install --break-system-packages \
     pandocfilters \
     kaleido \
     pantable \
+    openpyxl \
     pandoc-embedz
 RUN apt-get update -y \
  && apt-get install -y --no-install-recommends \
