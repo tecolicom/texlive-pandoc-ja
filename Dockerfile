@@ -143,7 +143,7 @@ RUN echo '{"args":["--no-sandbox","--disable-setuid-sandbox"]}' > /root/puppetee
 # pandoc-embedz (separate layer for quick updates)
 #
 RUN pip3 install --break-system-packages \
-    pandoc-embedz==0.18.1 \
+    pandoc-embedz==0.19.0 \
  && pip3 cache purge
 
 ENTRYPOINT []
