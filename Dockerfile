@@ -126,6 +126,9 @@ RUN cpanm --mirror https://cpan.metacpan.org/ --mirror-only --notest --quiet  \
     && rm -fr ~/.cpanm
 RUN pip3 install --break-system-packages \
     deepl \
+    llm \
+ && PIP_BREAK_SYSTEM_PACKAGES=1 llm install \
+    llm-gemini llm-claude-3 llm-perplexity llm-openrouter \
  && pip3 cache purge
 
 #
