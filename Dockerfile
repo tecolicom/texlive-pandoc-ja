@@ -121,8 +121,8 @@ RUN apt-get update -y \
     cpanminus \
  && apt-get -y clean \
  && rm -rf /var/lib/apt/lists/*
-RUN cpanm --notest --quiet  \
-    App::Greple::xlate \
+RUN cpanm --mirror https://cpan.metacpan.org/ --mirror-only --notest --quiet  \
+    App::Greple::xlate@1.0202 \
     && rm -fr ~/.cpanm
 RUN pip3 install --break-system-packages \
     deepl \
